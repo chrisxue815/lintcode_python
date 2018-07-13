@@ -2,7 +2,7 @@ import unittest
 import utils
 
 
-# O(nm) time. O(nm) space. DP.
+# O(nm) time. O(m) space. Space-optimized DP.
 class Solution(object):
     def backPack(self, m, a):
         """
@@ -10,18 +10,16 @@ class Solution(object):
         @param a: Given n items with size a[i]
         @return: The maximum size
         """
-        # dp[i][j]: max size for a[0:i] items and backpack size j
-        dp = [[0] * (m + 1) for _ in xrange(len(a) + 1)]
+        # dp[j]: max size for a[0:i] items and backpack size j
+        dp = [0] * (m + 1)
 
         for i in xrange(1, len(a) + 1):
             item_size = a[i - 1]
-            for pack_size in xrange(m + 1):
-                if pack_size < item_size:
-                    dp[i][pack_size] = dp[i - 1][pack_size]
-                else:
-                    dp[i][pack_size] = max(dp[i - 1][pack_size], dp[i - 1][pack_size - item_size] + item_size)
+            for pack_size in xrange(m, -1, -1):
+                if pack_size >= item_size:
+                    dp[pack_size] = max(dp[pack_size], dp[pack_size - item_size] + item_size)
 
-        return dp[-1][-1]
+        return dp[-1]
 
 
 class Test(unittest.TestCase):
