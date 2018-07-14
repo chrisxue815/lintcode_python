@@ -10,14 +10,13 @@ class Solution(object):
         @param a: Given n items with size a[i]
         @return: The maximum size
         """
-        # dp[j]: max size for a[0:i] items and backpack size j
+        # dp[j]: max size for a[0:i+1] items and backpack size j
         dp = [0] * (m + 1)
 
-        for i in xrange(1, len(a) + 1):
-            item_size = a[i - 1]
-            for pack_size in xrange(m, -1, -1):
-                if pack_size >= item_size:
-                    dp[pack_size] = max(dp[pack_size], dp[pack_size - item_size] + item_size)
+        for i in xrange(len(a)):
+            item_size = a[i]
+            for pack_size in xrange(m, item_size - 1, -1):
+                dp[pack_size] = max(dp[pack_size], dp[pack_size - item_size] + item_size)
 
         return dp[-1]
 
