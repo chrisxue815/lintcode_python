@@ -12,11 +12,16 @@ class Solution(object):
         """
         # dp[j]: max size for a[0:i+1] items and backpack size j
         dp = [0] * (m + 1)
+        size_sum = sum(a)
 
         for i in xrange(len(a)):
             item_size = a[i]
-            for pack_size in xrange(m, item_size - 1, -1):
+            bound = max(item_size, m - size_sum)
+
+            for pack_size in xrange(m, bound - 1, -1):
                 dp[pack_size] = max(dp[pack_size], dp[pack_size - item_size] + item_size)
+
+            size_sum - item_size
 
         return dp[-1]
 
