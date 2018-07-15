@@ -14,8 +14,7 @@ class Solution(object):
         dp = [0] * (m + 1)
         size_sum = sum(a)
 
-        for i in xrange(len(a)):
-            item_size = a[i]
+        for item_size in a:
             bound = max(item_size, m - size_sum)
 
             for pack_size in xrange(m, bound - 1, -1):
